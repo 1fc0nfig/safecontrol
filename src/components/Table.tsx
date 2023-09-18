@@ -59,7 +59,7 @@ const Table: React.FC<TableProps> = (props) => {
   const handleSearch = (searchTerm: string) => {
     // reset data if search is empty
     if (searchTerm === "") {
-      // TODO Sort filtered data
+      // sort inputData by selected column and set it as sortedData
       const sortedData = sortData(selectedColumn as keyof Data, !asc, inputData);
       setSortedData(sortedData);
       return;
