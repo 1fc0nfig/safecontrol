@@ -2,7 +2,7 @@ import { ArrowIcon } from "./Icons";
 import { Data } from "../App";
 
 interface TableHeadProps {
-  data: Data[];
+  data: Data;
   selectedColumn: string | null;
   setSelectedColumn: React.Dispatch<React.SetStateAction<string | null>>;
   asc: boolean;
@@ -36,7 +36,7 @@ const TableHead: React.FC<TableHeadProps> = (props) => {
   return (
     <thead className="w-full">
       <tr>
-        {Object.keys(data[0]).map((key, index) => (
+        {Object.keys(data).map((key, index) => (
           <th
             className={`px-2 sm:px-4 py-2 whitespace-nowrap cursor-pointer hover:scale-110 text-center ${
               props.selectedColumn === key ? "text-primary" : "text-white"

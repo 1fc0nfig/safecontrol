@@ -64,7 +64,6 @@ const App = () => {
 
   return (
     <div className="container mx-auto flex flex-col justify-center items-center m-5">
-      {/* <h1 className="text-white text-5xl mb-4">Hello world!</h1> */}
       <Table inputData={data}/>
     </div>
   );
