@@ -59,7 +59,7 @@ const Table: React.FC<TableProps> = (props) => {
   const handleSearch = (searchTerm: string) => {
     // reset data if search is empty
     if (searchTerm === "") {
-      // TODO Sort filtered data
+      // sort inputData by selected column and set it as sortedData
       const sortedData = sortData(selectedColumn as keyof Data, !asc, inputData);
       setSortedData(sortedData);
       return;
@@ -113,6 +113,24 @@ const Table: React.FC<TableProps> = (props) => {
     });
   };
 
+  // cell click handler: adds/removes cell id to coloredCells array
+  const handleColor = (id: string, index: number) => {
+    if (
+      coloredCells.includes((id + "-" + index).toString())
+    ) {
+      setColoredCells(
+        coloredCells.filter(
+          (cell) => cell !== (id + "-" + index).toString()
+        )
+      );
+    } else {
+      setColoredCells([
+        ...coloredCells,
+        (id + "-" + index).toString(),
+      ]);
+    }
+  }
+
   // recolor cells on data change / cell click
   useEffect(() => {
     // recolor the cells
@@ -161,7 +179,7 @@ const Table: React.FC<TableProps> = (props) => {
       </div>
       <table className="m-auto w-full ring-1 ring-white rounded-md bg-secondary-100">
         {/* THead */}
-        <TableHead data={sortedData} selectedColumn={selectedColumn} setSelectedColumn={setSelectedColumn} asc={asc} setAsc={setAsc} handleSort={handleSort} />
+        <TableHead data={sortedData[0]} selectedColumn={selectedColumn} setSelectedColumn={setSelectedColumn} asc={asc} setAsc={setAsc} handleSort={handleSort} />
         <tbody className="w-full">
           {/* Mapping sortedData to DOM, every cell gets an id based on its row and column (IDXXX and index) */}
           {/* Cell click handler adds/removes its id to coloredCells array */}
@@ -172,22 +190,7 @@ const Table: React.FC<TableProps> = (props) => {
                   className="px-2 sm:px-4 py-2 text-white border-t-2 border-spacing-y-1 border-white text-center text-xs sm:text-sm md:text-base xl:text-lg cursor-pointer"
                   key={(item.id + "-" + index).toString()}
                   id={(item.id + "-" + index).toString()}
-                  onClick={() => {
-                    if (
-                      coloredCells.includes((item.id + "-" + index).toString())
-                    ) {
-                      setColoredCells(
-                        coloredCells.filter(
-                          (cell) => cell !== (item.id + "-" + index).toString()
-                        )
-                      );
-                    } else {
-                      setColoredCells([
-                        ...coloredCells,
-                        (item.id + "-" + index).toString(),
-                      ]);
-                    }
-                  }}
+                  onClick={() => handleColor(item.id, index)}
                 >
                   {/* Display the value */}
                   {value}
